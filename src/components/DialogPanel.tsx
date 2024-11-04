@@ -26,14 +26,27 @@ const DialogPanel: React.FC = () => {
       {dialog.map((msg, index) => (
         <div
           key={index}
-          className={`tw-my-2 ${
-            msg.speaker === "AI" ? "tw-text-left" : "tw-text-right"
+          className={`tw-chat ${
+            msg.speaker === "AI" ? "tw-chat-start" : "tw-chat-end"
           }`}
         >
-          <span>{msg.text}</span>
+          <div className="tw-chat-image tw-avatar">
+            <div className="tw-w-10 tw-rounded-full tw-bg-gray-300">
+              {/* Placeholder for image */}
+              <span className="tw-text-sm tw-font-bold tw-text-gray-500">
+                {msg.speaker === "AI" ? "S" : "P"}
+              </span>
+            </div>
+          </div>
+          <div className="tw-chat-header">
+            {msg.speaker === "AI" ? "Ship" : "Starbot"}
+          </div>
+          <div className="tw-chat-bubble">{msg.text}</div>
         </div>
       ))}
-      <button onClick={handleNextDialog}>Next</button>
+      <button className="tw-btn tw-btn-primary" onClick={handleNextDialog}>
+        Next
+      </button>
     </div>
   );
 };
