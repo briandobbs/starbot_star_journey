@@ -16,6 +16,7 @@ const CommandInput: React.FC<CommandInputProps> = ({ onCommand }) => {
 
   return (
     <input
+      className="tw-m-2 tw-p-1 tw-input tw-input-bordered tw-w-full tw-max-w-[500px]"
       type="text"
       value={input}
       onChange={(e) => setInput(e.target.value)}

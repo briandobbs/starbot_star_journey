@@ -39,10 +39,10 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="game-container">
+    <div className="tw-flex tw-flex-col tw-items-center tw-m-4">
       <DialogPanel dialogMessages={dialogMessages} />
-      <GameCanvas playerPosition={playerPosition} gridSize={gridSize} />
       <CommandInput onCommand={handleCommand} />
+      <GameCanvas playerPosition={playerPosition} gridSize={gridSize} />
     </div>
   );
 };
