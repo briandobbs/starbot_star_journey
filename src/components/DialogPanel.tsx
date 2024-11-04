@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { dialogMessages, DialogMessage } from "../data/dialogData";
+import { SHIP, PLAYER } from "../types/speaker";
+import ShipImage from "../assets/ship_portrait_32x32.png";
+import StarbotImage from "../assets/starbot_portrait_32x32.png";
 
 const DialogPanel: React.FC = () => {
   const [currentDialogIndex, setCurrentDialogIndex] = useState(0);
@@ -27,19 +30,19 @@ const DialogPanel: React.FC = () => {
         <div
           key={index}
           className={`tw-chat ${
-            msg.speaker === "AI" ? "tw-chat-start" : "tw-chat-end"
+            msg.speaker === SHIP ? "tw-chat-start" : "tw-chat-end"
           }`}
         >
           <div className="tw-chat-image tw-avatar">
-            <div className="tw-w-10 tw-rounded-full tw-bg-gray-300">
-              {/* Placeholder for image */}
-              <span className="tw-text-sm tw-font-bold tw-text-gray-500">
-                {msg.speaker === "AI" ? "S" : "P"}
-              </span>
+            <div className="tw-w-10 tw-rounded-full">
+              <img
+                src={msg.speaker === SHIP ? ShipImage : StarbotImage}
+                alt={msg.speaker === SHIP ? "Ship" : "Starbot"}
+              />
             </div>
           </div>
           <div className="tw-chat-header">
-            {msg.speaker === "AI" ? "Ship" : "Starbot"}
+            {msg.speaker === SHIP ? "Ship" : "Starbot"}
           </div>
           <div className="tw-chat-bubble">{msg.text}</div>
         </div>
