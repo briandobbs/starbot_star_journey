@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { dialogMessages, DialogMessage } from "../data/dialogData";
 import { SHIP, PLAYER } from "../types/speaker";
+import {
+  Trigger,
+  MOVE_COMMAND_ENTERED,
+  TURN_COMMAND_ENTERED,
+} from "../types/trigger";
 import ShipImage from "../assets/ship_portrait_32x32.png";
 import StarbotImage from "../assets/starbot_portrait_32x32.png";
 
 const DialogPanel: React.FC = () => {
   const [currentDialogIndex, setCurrentDialogIndex] = useState(0);
   const [dialog, setDialog] = useState<DialogMessage[]>([]);
+  const [triggers, setTriggers] = useState<Set<Trigger>>(new Set()); // Track active triggers
 
   const playerHasWokenUp = true; // start condition for game
 
   useEffect(() => {
     const filteredDialog = dialogMessages.filter(
       (msg, index) =>
-        index <= currentDialogIndex && (!msg.condition || msg.condition())
+        index <= currentDialogIndex &&
+        (!msg.condition ||
+          (typeof msg.condition === "function" && msg.condition()) ||
+          (typeof msg.condition === "string" && triggers.has(msg.condition)))
     );
     setDialog(filteredDialog);
   }, [currentDialogIndex, playerHasWokenUp]);
@@ -22,6 +31,19 @@ const DialogPanel: React.FC = () => {
     if (currentDialogIndex < dialogMessages.length - 1) {
       setCurrentDialogIndex(currentDialogIndex + 1);
     }
+  };
+
+  const triggerEvent = (event: Trigger) => {
+    setTriggers((prev) => new Set(prev).add(event));
+  };
+
+  const handleCommand = (command: string) => {
+    if (command === "move") {
+      triggerEvent(MOVE_COMMAND_ENTERED);
+    } else if (command === "turn") {
+      triggerEvent(TURN_COMMAND_ENTERED);
+    }
+    handleNextDialog();
   };
 
   return (
