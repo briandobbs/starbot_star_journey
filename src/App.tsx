@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Provider } from "react-redux";
+import store from "./app/store";
 import "./App.css";
 import DialogPanel from "./components/DialogPanel";
 import GameCanvas from "./components/GameCanvas";
@@ -40,9 +42,11 @@ const App: React.FC = () => {
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-m-4">
-      <DialogPanel />
-      <CommandInput onCommand={handleCommand} />
-      <GameCanvas playerPosition={playerPosition} gridSize={gridSize} />
+      <Provider store={store}>
+        <DialogPanel />
+        <CommandInput onCommand={handleCommand} />
+        <GameCanvas playerPosition={playerPosition} gridSize={gridSize} />
+      </Provider>
     </div>
   );
 };

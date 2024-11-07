@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import { nextDialog } from "../app/dialogSlice";
+import { activateTrigger } from "../app/triggerSlice";
 import { dialogMessages, DialogMessage } from "../data/dialogData";
 import { SHIP, PLAYER } from "../types/speaker";
 import {
@@ -10,40 +14,30 @@ import ShipImage from "../assets/ship_portrait_32x32.png";
 import StarbotImage from "../assets/starbot_portrait_32x32.png";
 
 const DialogPanel: React.FC = () => {
-  const [currentDialogIndex, setCurrentDialogIndex] = useState(0);
-  const [dialog, setDialog] = useState<DialogMessage[]>([]);
-  const [triggers, setTriggers] = useState<Set<Trigger>>(new Set()); // Track active triggers
+  const dispatch = useDispatch();
+  const currentIndex = useSelector(
+    (state: RootState) => state.dialog.currentIndex
+  );
+  const activeTriggers = useSelector(
+    (state: RootState) => state.triggers.activeTriggers
+  );
+  const dialog = useSelector((state: RootState) => state.dialog.filteredDialog);
 
   const playerHasWokenUp = true; // start condition for game
 
-  useEffect(() => {
-    const filteredDialog = dialogMessages.filter(
-      (msg, index) =>
-        index <= currentDialogIndex &&
-        (!msg.condition ||
-          (typeof msg.condition === "function" && msg.condition()) ||
-          (typeof msg.condition === "string" && triggers.has(msg.condition)))
-    );
-    setDialog(filteredDialog);
-  }, [currentDialogIndex, playerHasWokenUp]);
-
-  const handleNextDialog = () => {
-    if (currentDialogIndex < dialogMessages.length - 1) {
-      setCurrentDialogIndex(currentDialogIndex + 1);
-    }
-  };
-
-  const triggerEvent = (event: Trigger) => {
-    setTriggers((prev) => new Set(prev).add(event));
-  };
-
   const handleCommand = (command: string) => {
     if (command === "move") {
-      triggerEvent(MOVE_COMMAND_ENTERED);
+      dispatch(activateTrigger(MOVE_COMMAND_ENTERED));
     } else if (command === "turn") {
-      triggerEvent(TURN_COMMAND_ENTERED);
+      dispatch(activateTrigger(TURN_COMMAND_ENTERED));
     }
-    handleNextDialog();
+    dispatch(nextDialog());
+  };
+
+  const handleNextDialog = () => {
+    if (currentIndex < dialog.length) {
+      dispatch(nextDialog());
+    }
   };
 
   return (
