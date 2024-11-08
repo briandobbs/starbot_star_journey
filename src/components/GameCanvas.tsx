@@ -42,7 +42,7 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
     }
   }, [playerPosition, gridSize]);
 
-  return <canvas ref={canvasRef} />;
+  return <canvas id="gameCanvas" ref={canvasRef} />;
 };
 
 export default GameCanvas;

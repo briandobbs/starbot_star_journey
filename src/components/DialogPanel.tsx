@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { nextDialog } from "../app/dialogSlice";
 import { activateTrigger } from "../app/triggerSlice";
-import { dialogMessages, DialogMessage } from "../data/dialogData";
 import { SHIP, PLAYER } from "../types/speaker";
 import {
   Trigger,

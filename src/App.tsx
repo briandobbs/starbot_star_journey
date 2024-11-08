@@ -5,6 +5,7 @@ import "./App.css";
 import DialogPanel from "./components/DialogPanel";
 import GameCanvas from "./components/GameCanvas";
 import CommandInput from "./components/CommandInput";
+import Map from "./components/Map";
 
 const gridSize = 40;
 
@@ -41,11 +42,19 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-m-4">
+    <div className="frame">
       <Provider store={store}>
-        <DialogPanel />
+        {/* <DialogPanel />
         <CommandInput onCommand={handleCommand} />
-        <GameCanvas playerPosition={playerPosition} gridSize={gridSize} />
+        <GameCanvas playerPosition={playerPosition} gridSize={gridSize} /> */}
+        <div className="corner_topleft"></div>
+        <div className="corner_topright"></div>
+        <div className="corner_bottomleft"></div>
+        <div className="corner_bottomright"></div>
+
+        <div className="camera">
+          <Map />
+        </div>
       </Provider>
     </div>
   );
