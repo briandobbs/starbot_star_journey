@@ -65,6 +65,21 @@ body {
   position: relative;
 }
 
+.character {
+  width: calc(var(--grid-cell) * 2);
+  height: calc(var(--grid-cell) * 2);
+  position: absolute;
+  overflow: hidden;
+}
+
+.character_spritesheet {
+  position: absolute;
+  background: url("./assets/starbot_spritesheet.png") no-repeat no-repeat;
+  background-size: 100%;
+  width: calc(var(--grid-cell) * 8);
+  height: calc(var(--grid-cell) * 8);
+}
+
 .game-container {
   display: flex;
   flex-direction: column;
